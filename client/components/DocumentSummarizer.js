@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 // import SummaryTool from 'node-summary';
-import DocumentPicker from 'react-native-document-picker';
+// import DocumentPicker from 'react-native-document-picker';
 
 const DocumentSummarizer = () => {
   const [inputText, setInputText] = useState('');
@@ -12,8 +12,18 @@ const DocumentSummarizer = () => {
   const data = [
       {key:'1', value:'Hindi'},
       {key:'2', value:'Marathi'},
-      {key:'3', value:'Gujrati'},
   ]
+
+  const [Summarize, setSummarize] = React.useState("");
+  const info = [
+      {key:'1', value:'Noraml'},
+      {key:'2', value:'Good'},
+      {key:'3', value:'Best'}
+  ]
+
+  const [Result, setResult] = useState('');
+
+  
 
   // const selectDoc = async () => {
   //   try {
@@ -46,6 +56,7 @@ const DocumentSummarizer = () => {
   return (
     <View style={{ padding: 20 }}>
       <Text style={{textAlignVertical: "center",textAlign: "center",fontSize: 25,fontWeight: 'bold',marginBottom: 50}}>Welcome to Document Summarizer to Regional Language</Text>
+
       <SelectList
         setSelected={(val) => setSelected(val)} 
         data={data} 
@@ -67,15 +78,25 @@ const DocumentSummarizer = () => {
         <Button title="Select Document"  />
     </View>
 
+
+    <View style={{marginTop:30}}>
+    <SelectList
+        setSelected={(val) => setSummarize(val)} 
+        data={info} 
+        save="value"
+        placeholder='Select Summarizing option'
+        />
+    </View>
+
       <View style={{ marginRight: 100,marginLeft:100,marginTop:25,marginBottom:20 }}>
       <Button title="Submit" type="solid"  iconRight />
       </View>
 
-      <Text style={{ marginTop: 10, fontSize: 16 }}>
-        <Text style={{ fontWeight: 'bold' }}>Summary:</Text>
+      {/* <View style={{ marginTop: 10 }}>
+        <Text style={{ fontWeight: 'bold',fontSize: 25 }}>Summary:</Text>
         {'\n'}
         {summary}
-      </Text>
+      </View> */}
 
     </View>
   );
