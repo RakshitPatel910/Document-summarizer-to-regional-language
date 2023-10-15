@@ -1,6 +1,7 @@
 import express from "express";
 import cors from 'cors'
 import dotenv from 'dotenv';
+import bodyParser from'body-parser';
 import { spawn } from "child_process";
 
 const app = express();
@@ -8,10 +9,15 @@ import summarizer from './router/summarizer.js';
 
 dotenv.config({ path: './config.env' });
 
-// require("./db/conn");
-
-app.use(express.json()); // to convert incoming data in express to json
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true,
+//   })
+// );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })) // to convert incoming data in express to json
 app.use(cors());
+// require("./db/conn");
 
 app.use("/summarizer", summarizer)
 // app.use(require('./router/organizer'))
