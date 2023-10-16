@@ -3,9 +3,6 @@ import { View, Text, TextInput, Button } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import * as DocumentPicker from'expo-document-picker';
 import axios from 'axios';
-// import SummaryTool from 'node-summary';
-// import DocumentPicker from 'react-native-document-picker';
-
 
 const DocumentSummarizer = () => {
   const [inputText, setInputText] = useState('');
@@ -27,51 +24,21 @@ const DocumentSummarizer = () => {
   const [Result, setResult] = useState('');
 
   
-
-  // const selectDoc = async () => {
-  //   try {
-  //     const doc = await DocumentPicker.pickSingle({
-  //       type: [DocumentPicker.types.pdf, DocumentPicker.types.images]
-  //     })
-  //     console.log(doc)
-  //   } catch(err) {
-  //     if(DocumentPicker.isCancel(err)) 
-  //       console.log("User cancelled the upload", err);
-  //     else 
-  //       console.log(err)
-  //   }
-  // }
-
-  
-
-//   const summarizeDocument = () => {
-//     if (inputText) {
-//       SummaryTool.summarize(inputText, (err, summary) => {
-//         if (!err) {
-//           setSummary(summary);
-//         } else {
-//           console.error(err);
-//         }
-//       });
-//     }
-//   };
   const [selectedDocument, setSelectedDocument] = useState(null);
 
   const sendFileToBackend = async (fileUri) => {
-    console.log(4)
+    // console.log(4)
     
-    // try {
       var formData = new FormData();
+
       const data = JSON.stringify({
-        uri: selectedDocument.assets[0], // The file URI from the DocumentPicker
-        // name: selectedDocument.assets[0].name, // Specify the file name
-        name: 'text', // Specify the file name
-        type: selectedDocument.assets[0].mimeType, // Specify the file type
+        uri: selectedDocument.assets[0], 
+        name: 'text', 
+        type: selectedDocument.assets[0].mimeType, 
       })
+
       formData.append('file', data);
 
-      console.log(5, data.uri)
-      console.log(selectedDocument)
       await axios.post('http://localhost:3010/summarizer/summarize', data, {
         headers: {
           'Content-Type': 'application/pdf',
@@ -79,9 +46,12 @@ const DocumentSummarizer = () => {
         transformRequest: (data, error) => {
           return formData;
       },
+      }).then( (result) => {
+        console.log(result)
+        if( result.data.success == true ) setSummary(result.data.summaryText);
+        else setSummary('Something went wrong')
       })
   
-      // Handle the response from the backend
   };
 
   const pickDocument = async () => {
@@ -121,7 +91,7 @@ const DocumentSummarizer = () => {
       // .catch((error) => {
       //   console.error(error);
       // });
-      console.log(6)
+      // console.log(6)
   }
 
   const handleSubmit = async () => {
@@ -172,7 +142,7 @@ const DocumentSummarizer = () => {
         {'\n'}
         {summary}
       </View> */}
-
+      <Text>{ summary }</Text>
     </View>
   );
 };
