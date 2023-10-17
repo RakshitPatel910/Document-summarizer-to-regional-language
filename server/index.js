@@ -15,7 +15,7 @@ dotenv.config({ path: './config.env' });
 //   })
 // );
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })) // to convert incoming data in express to json
+app.use(express.urlencoded({ limit: "30mb", extended: true })) // to convert incoming data in express to json
 app.use(cors());
 // require("./db/conn");
 

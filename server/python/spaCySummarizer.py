@@ -15,7 +15,7 @@ nlp = spacy.load("en_core_web_sm")
 # Ironically, consumers also become frustrated when they perceive companies to not have a good understanding of their needs or offer random products rather than relevant ones. This complex dynamic means telecom businesses must gather high-quality information, but use it in a responsible, transparent way.
 # A 2011 marketing campaign completed by Turkcell, an Istanbul-based cellphone provider, demonstrated the successful use of consumer data. The company began reviewing customer data in real time, allowing them to better identify individuals’ needs at that time. As a result, they were able to shorten their marketing cycle from several weeks to several days and increase revenue by $15 million that year, according to a Strategy& report from PwC.'''
 
-text1 = sys.stdin.read()
+ratio = sys.stdin.read()
 utext = extract_text('./uploads/output.pdf')
 
 pattern = r'[^\x00-\x7F]'
@@ -64,7 +64,13 @@ for i, sent in enumerate(doc.sents) :
     sentence_scores.append((i, sent.text.replace("\n", " "), score))
     # sentence_scores.append((i, sent.text.replace("\n", " "), score/len(sent)))
 
-select_length = int(len(sentence_tokens) * 0.3)
+# select_length = int(len(sentence_tokens) * 0.3)
+
+
+if ratio == 'Short' : select_length = int(len(sentence_tokens) * 0.3)
+elif ratio == 'Normal' : select_length = int(len(sentence_tokens) * 0.4)
+else : select_length = int(len(sentence_tokens) * 0.5)
+
 
 summary = nlargest(select_length , sentence_scores , key = lambda x: -x[0])
 # print(summary)
